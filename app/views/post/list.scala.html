@@ -1,0 +1,38 @@
+@(posts: Seq[(Post, Option[User])])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
+
+@main(title = " List ") {
+    <div class="container">
+
+        <table class="table table-hover">
+            <caption class="capitalize">
+                <span class="text-left"><strong>Post List</strong></span>
+                <span><a class="btn btn-primary" href="@routes.PostController.savePage()">Create Post</a></span>
+                <span><a href="@routes.UserController.users()" class="btn-link">User List</a></span>
+            </caption>
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Title</td>
+                    <td>Content</td>
+                    <td>Posted Date</td>
+                    <td>Author Name</td>
+                </tr>
+            </thead>
+
+            <tbody>
+            @posts.map { t =>
+                <tr>
+                    <td> @t._1.id</td>
+                    <td><a href="@routes.PostController.editPage(t._1.id.getOrElse(-1L))"> @t._1.title</a></td>
+                    <td> @t._1.content</td>
+                    <td>@{
+                        new java.text.SimpleDateFormat().format(t._1.postedAt.getOrElse(new java.util.Date()))
+                    }</td>
+                    <td><a href="">@t._2.map(_.name)</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+}

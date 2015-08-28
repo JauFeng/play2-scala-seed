@@ -1,0 +1,62 @@
+@()(implicit messages: Messages, requestHeader: RequestHeader, flash: Flash)
+
+@main(title = " Weather ") {
+
+
+    <script type='text/javascript' src='@routes.Assets.versioned("javascripts/weather.js")'></script>
+
+    <script type='text/javascript' src='@routes.Assets.versioned("javascripts/routes.js")'></script>
+
+    <div class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+            <input type="text" name="city" class="form-control" placeholder="City">
+        </div>
+        <button type="button" class="btn btn-default">Submit</button>
+        <div class="form-group">
+            <span id="msg" style="color : red"></span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <table class="table table-hover">
+            <caption style="background-color : midnightblue ; color : gold ; font-size : large">Today</caption>
+            <thead style="background-color : orange">
+                <tr>
+                    <td>Date</td>
+                    <td>Week</td>
+                    <td>CurTemp</td>
+                    <td>AQI</td>
+                    <td>FengXiang</td>
+                    <td>FengLi</td>
+                    <td>HighTemp</td>
+                    <td>LowTemp</td>
+                    <td>Type</td>
+                </tr>
+            </thead>
+
+            <tbody id="today-weathers">
+            </tbody>
+        </table>
+
+        <table class="table table-hover" >
+            <caption style="background-color : midnightblue ; color : gold ; font-size : large">Forecast</caption>
+            <thead style="background-color : orange">
+                <tr>
+                    <td>Data</td>
+                    <td>Week</td>
+                    <td>Fengxiang</td>
+                    <td>Fengli</td>
+                    <td>HighTemp</td>
+                    <td>LowTemp</td>
+                    <td>Type</td>
+                </tr>
+            </thead>
+
+            <tbody id="forecast-weathers">
+
+            </tbody>
+        </table>
+
+    </div>
+}

@@ -1,7 +1,142 @@
-@(message: String)
+@(loginForm: Form[LoginForm], title: String = "title", stylesheets: Html = Html(""), scripts: Html = Html(""), content: Html = Html(""))(implicit messages: Messages, requestHeader: RequestHeader)
 
-@main("Welcome to Play") {
+<!DOCTYPE html>
 
-    @play20.welcome(message)
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        @* 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ *@
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-}
+        <title>@title</title>
+
+        <link rel="shortcut icon" type="image/png" href='@routes.Assets.versioned("images/favicon.png")'/>
+
+        @* Bootstrap core CSS *@
+        <link rel='stylesheet' href='@routes.Assets.versioned("lib/bootstrap/css/bootstrap.min.css")'>
+        @* Custom styles for this template *@
+        <link rel="stylesheet" href='@routes.Assets.versioned("stylesheets/jumbotron.css")' >
+
+        @stylesheets
+
+        @* Just for debugging purposes. Don't actually copy these 2 lines! *@
+        @*[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]*@
+        <script type="text/javascript" src='@routes.Assets.versioned("javascripts/ie-emulation-modes-warning.js")' ></script>
+
+        @* HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries *@
+        @*[if lt IE 9]>
+        <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]*@
+
+        @scripts
+
+    </head>
+
+    <body>
+
+        @* Header *@
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href='/'><strong>Play Framework 2.4.x</strong></a>
+                </div>
+
+                @* If Login *@
+                @requestHeader.session.get("user_name") match {
+                    case None => {
+                        <div id="navbar" class="navbar-collapse collapse">
+                        @helper.form(routes.LoginController.authenticate(), 'class -> "navbar-form navbar-right") {
+
+                            @helper.CSRF.formField
+
+                            <div class="form-group">
+                            @helper.inputText(loginForm("name"), '_label -> "", 'placeholder -> "Email", '_help -> "", 'class -> "form-control")
+                            </div>
+
+                            <div class="form-group">
+                            @helper.inputPassword(loginForm("password"), '_label -> "", 'placeholder -> "Password", '_help -> "", 'class -> "form-control")
+                            </div>
+
+                            <button type="submit" class="btn btn-success">Sign in</button>
+                        }
+                        </div>
+                    }
+                    case Some(userName) => {
+                        <div id="navbar" class="navbar-collapse collapse">
+                            <a href="@routes.LoginController.logout()" class="btn btn-primary navbar-btn navbar-right">Logout</a>
+                            <p class="navbar-text navbar-right">Signed in as <a href="#" class="navbar-link">@userName</a></p>
+                        </div>
+                    }
+                }
+
+            </div>
+        </nav>
+
+        @* Main jumbotron for a primary marketing message or call to action *@
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Hello, world!</h1>
+                <p>This is a template for a simple play framework 2.4.x website.</p>
+                <p><a class="btn btn-primary btn-lg" href="https://github.com/JauFeng/play2-scala-seed" role="button">Learn more »</a></p>
+            </div>
+        </div>
+
+        <div class="container">
+            @* Example row of columns *@
+            <div class="row">
+                <div class="col-md-4">
+                    <h2><b>CRUD</b>: </h2>
+                    <p>The most usually template for CRUD. </p>
+                    <p>Slick 3 & H2. </p>
+                    <p><a class="btn btn-default" href="@routes.PostController.posts()" role="button">
+                        View details »</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <h2><b>WebService</b>: </h2>
+                    <p>Weather of City.
+                        (Baidu's weather API & Ajax & JSON & SecurityHeader).
+                    </p>
+                    <p><a class="btn btn-default" href="@routes.MyApplication.weather()" role="button">
+                        View details »</a></p>
+                </div>
+
+                <div class="col-md-4">
+                    <h2><b>WebSocket</b>: </h2>
+                    <p>Chat Room.</p>
+                    <p><a class="btn btn-default" href="@routes.ChatRoomController.chatRoom()" role="button">View details »</a></p>
+                </div>
+            </div>
+
+            <hr>
+
+            <section>@content</section>
+
+            <footer>
+                <p>Copyright © 2015 Turing.</p>
+            </footer>
+        </div> @* /container *@
+
+
+        @* Bootstrap core JavaScript
+        ================================================== *@
+        @* Placed at the end of the document so the pages load faster *@
+        <script type="text/javascript" src='@routes.Assets.versioned("javascripts/jquery-1.11.3.min.js")' ></script>
+        <script type="text/javascript" src='@routes.Assets.versioned("lib/bootstrap/js/bootstrap.min.js")'></script>
+        @* IE10 viewport hack for Surface/desktop Windows 8 bug *@
+        <script type="text/javascript" src='@routes.Assets.versioned("javascripts/ie10-viewport-bug-workaround.js")' ></script>
+
+
+    </body>
+</html>

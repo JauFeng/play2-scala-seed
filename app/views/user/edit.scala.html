@@ -1,0 +1,46 @@
+@(id: Long, userForm: Form[UserForm])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
+
+    @import helper._
+    @** Helper provide form field:
+    * `form`: renders a form element.
+    * `inputText`: renders a text input element.
+    * `inputPassword`: renders a password input element.
+    * `inputDate`: renders a date input element.
+    * `inputFile`: renders a file input element.
+    * `inputRadioGroup`: renders a radio input element.
+    * `select`: renders a select element.
+    * `textarea`: renders a textarea element.
+    * `checkbox`: renders a checkbox element.
+    * `input`: renders a generic input element (which requires explicit arguments).
+    *@
+    @main(title = " Edit User ") {
+
+        @flash.get("success").map { message =>
+            <div>
+                <strong>Done!</strong>@message
+            </div>
+        }
+
+        @b3.horizontal.form(routes.UserController.edit(id), "col-md-2", "col-md-6") { implicit hfc =>
+            @* csrf-Token *@
+            @CSRF.formField
+
+            @b3.text(userForm("name"), '_label -> "Name", 'placeholder -> "example@mail.com")
+            @b3.password(userForm("password"), '_label -> "Password", '_help -> "With at least 8 characters")
+            @b3.text(userForm("fullName"), '_label -> "Full Name", 'placeholder -> "John Doe")
+            @b3.email(userForm("email"), '_label -> "Email", 'placeholder -> "example@mail.com")
+            @b3.checkbox(userForm("isAdmin"), '_text -> "Administration", 'value -> false)
+            @b3.number(userForm("age"), '_label -> "Age", 'placeholder -> "18", 'min -> 0, 'max -> 100)
+
+            @b3.free('_id -> "idFormGroup") {
+                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>
+                    Save changes</button>
+                <a href="@routes.UserController.users()" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>
+                    Cancel</a>
+                <button type="submit" class="btn btn-danger" formaction="@routes.UserController.delete(id)" formmethod="post"><span class="glyphicon glyphicon-minus"></span>
+                    Remove</button>
+            }
+        }
+
+
+    }

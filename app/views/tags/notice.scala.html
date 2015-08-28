@@ -1,0 +1,15 @@
+@(level: String)(body: (String) => Html)
+
+@level match {
+    case "Success" => {
+        @body("green")
+    }
+
+    case "Waring" => {
+        @body("orange")
+    }
+
+    case "Error" => {
+        @body("red")
+    }
+}

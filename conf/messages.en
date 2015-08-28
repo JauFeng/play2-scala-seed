@@ -1,0 +1,6 @@
+name = Name
+password = Password
+age = Age
+
+auth.unknown = Unknown author: {0}
+password.unknown = Unknown password: {0}

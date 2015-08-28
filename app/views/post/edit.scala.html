@@ -1,0 +1,43 @@
+@(id: Long, postForm: Form[PostForm], userSeq: Seq[(String, String)])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
+
+@import helper._
+
+@** Helper provide form field:
+* `form`: renders a form element.
+* `inputText`: renders a text input element.
+* `inputPassword`: renders a password input element.
+* `inputDate`: renders a date input element.
+* `inputFile`: renders a file input element.
+* `inputRadioGroup`: renders a radio input element.
+* `select`: renders a select element.
+* `textarea`: renders a textarea element.
+* `checkbox`: renders a checkbox element.
+* `input`: renders a generic input element (which requires explicit arguments).
+*@
+
+@main(title = " Edit Post ") {
+    @flash.get("success").map { message =>
+        <div>
+            <strong>Success!</strong>@message
+        </div>
+    }
+
+    @b3.horizontal.form(routes.PostController.edit(id), "col-md-2", "col-md-6") { implicit hfc =>
+        @* csrf-Token *@
+        @CSRF.formField
+
+        @b3.text(postForm("title"), '_label -> "Title", 'placeholder -> "Post title")
+        @b3.textarea(postForm("content"), '_label -> "Content")
+        @b3.date(postForm("postedAt"), '_label -> "Posted Date(HTML5, UsingChrome)"),
+        @b3.select(postForm("authorId"), userSeq, '_label -> "AuthorId", '_default -> "-- Choose a Author --")
+
+        @b3.free('_id -> "idFormGroup") {
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Save changes</button>
+            <a href="@routes.PostController.posts()" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span>
+                Cancel</a>
+            <button type="submit" class="btn btn-danger" formaction="@routes.PostController.delete(id)" formmethod="post"><span class="glyphicon glyphicon-minus"></span>
+                Remove</button>
+        }
+    }
+
+}

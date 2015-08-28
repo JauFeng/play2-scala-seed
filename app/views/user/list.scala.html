@@ -1,0 +1,44 @@
+@(users: Seq[User])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
+
+    @main(title = " User List ") {
+
+        <div class="container">
+            <table class="table table-hover">
+                <caption class="capitalize">
+                    <span class="text-left"><strong>User List</strong></span>
+                    <span><a class="btn btn-primary" href="@routes.UserController.savePage()">Create User</a></span>
+                    <span><a href="@routes.PostController.posts()" class="btn-link">Post List</a></span>
+                </caption>
+                <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Name</td>
+                        <td>Password</td>
+                        <td>Full Name</td>
+                        <td>Email</td>
+                        <td>Age</td>
+                        <td>Admin</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @users.map { user =>
+                    <tr>
+                        <td>@user.id</td>
+                        <td><a href="@routes.UserController.editPage(user.id.getOrElse(-1L))">@user.name</a></td>
+                        <td>@user.password</td>
+                        <td>@user.fullName</td>
+                        <td>@user.email</td>
+                        <td>@user.age</td>
+                        <td>@user.isAdmin match {
+                            case false => { No }
+                            case true => { Yes }
+                        }</td>
+                    </tr>
+                }
+
+                </tbody>
+            </table>
+
+        </div>
+    }

@@ -1,0 +1,7 @@
+# --- !Ups
+
+ALTER TABLE USER ADD AGE SMALLINT;
+
+# --- !Downs
+
+ALTER TABLE USER DROP AGE;

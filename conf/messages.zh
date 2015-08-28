@@ -1,0 +1,6 @@
+name = 姓名
+password = 密码
+age = 年龄
+
+auth.unknown = 无效用户： {0}
+password.unknown = 密码无效：{0}
