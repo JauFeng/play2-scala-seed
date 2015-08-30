@@ -40,7 +40,7 @@ class IndexController @Inject()(@NamedCache("html-cache") htmlCache: CacheApi, v
    */
   def index = CSRFAddToken {
     Action { implicit request =>
-      Ok(views.html.index(title = "Index", loginForm = loginForm))
+      Ok(views.html.index(title = "Hello Word | A Play! Template", loginForm = loginForm))
     }
   }
 }

@@ -1,22 +1,24 @@
 @(id: Long, userForm: Form[UserForm])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
 
-    @import helper._
-    @** Helper provide form field:
-    * `form`: renders a form element.
-    * `inputText`: renders a text input element.
-    * `inputPassword`: renders a password input element.
-    * `inputDate`: renders a date input element.
-    * `inputFile`: renders a file input element.
-    * `inputRadioGroup`: renders a radio input element.
-    * `select`: renders a select element.
-    * `textarea`: renders a textarea element.
-    * `checkbox`: renders a checkbox element.
-    * `input`: renders a generic input element (which requires explicit arguments).
-    *@
-    @main(title = " Edit User ") {
+@import helper._
+@** Helper provide form field:
+* `form`: renders a form element.
+* `inputText`: renders a text input element.
+* `inputPassword`: renders a password input element.
+* `inputDate`: renders a date input element.
+* `inputFile`: renders a file input element.
+* `inputRadioGroup`: renders a radio input element.
+* `select`: renders a select element.
+* `textarea`: renders a textarea element.
+* `checkbox`: renders a checkbox element.
+* `input`: renders a generic input element (which requires explicit arguments).
+*@
+@main(title = " Edit User ") {
+
+    <div class="container">
 
         @flash.get("success").map { message =>
-            <div>
+            <div class="alert alert-success" role="alert">
                 <strong>Done!</strong>@message
             </div>
         }
@@ -42,5 +44,6 @@
             }
         }
 
+    </div>
 
-    }
+}

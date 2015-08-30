@@ -70,10 +70,12 @@ class LoginController @Inject()(userRepo: UserRepository, @NamedCache("user-cach
               BadRequest(views.html.login.login(loginForm.withGlobalError(message = messagesApi("auth.unknown", successForm.name))))
             case users: Seq[User] =>
               if (users.head.password == successForm.password)
-                Redirect(routes.IndexController.index()).addingToSession(
-                  "user_name" -> users.head.name,
-                  "is_admin" -> users.head.isAdmin.toString,
-                  "user_fullName" -> users.head.fullName.getOrElse(""))
+                Redirect(request.session.get("parent").getOrElse(routes.IndexController.index().url)).withSession(
+                  request.session - "parent" +
+                    ("user_name" -> users.head.name) +
+                    ("is_admin" -> users.head.isAdmin.toString) +
+                    ("user_fullName" -> users.head.fullName.getOrElse(""))
+                )
               else
                 BadRequest(views.html.login.login(
                   loginForm.withGlobalError(message = messagesApi("password.unknown", successForm.password)))

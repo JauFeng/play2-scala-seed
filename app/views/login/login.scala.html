@@ -1,28 +1,35 @@
-@(loginForm: Form[LoginForm])(implicit messages: Messages, requestHeader: RequestHeader)
+@(loginForm: Form[LoginForm])(implicit messages: Messages, requestHeader: RequestHeader, flash: Flash, session: Session)
 
     @import helper._
 
     @main(title = " Login ") {
 
         <div class="container">
-        @form(routes.LoginController.authenticate(), 'class -> "form-horizontal") {
 
-            @CSRF.formField
+            @flash.get("forbidden").map { message =>
+                <div class="alert alert-danger" role="alert">
+                    @message
+                </div>
+            }
 
-            <h2 align="center">Please sign in</h2>
+            @form(routes.LoginController.authenticate(), 'class -> "form-horizontal") {
 
-            @inputText(loginForm("name"),'label -> messages("name"),  'id -> "name", 'placeholder -> "scala", '_help -> "", 'class -> "form-control")
+                @CSRF.formField
 
-            @inputPassword(loginForm("password"), '_label -> messages("password"), 'placeholder -> "password", '_help -> "", 'class -> "form-control")
+                <h2 align="center">Please sign in</h2>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-        }
+                @inputText(loginForm("name"), 'label -> messages("name"), 'id -> "name", 'placeholder -> "scala", '_help -> "", 'class -> "form-control")
+
+                @inputPassword(loginForm("password"), '_label -> messages("password"), 'placeholder -> "password", '_help -> "", 'class -> "form-control")
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            }
         </div>
 
         <ul>
-            @loginForm.globalErrors.map { error =>
-                <li>@error.message</li>
-            }
+        @loginForm.globalErrors.map { error =>
+            <li>@error.message</li>
+        }
         </ul>
 
     }

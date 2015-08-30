@@ -1,24 +1,26 @@
-@(userForm: Form[UserForm])(implicit flash: Flash,  messages: Messages, requestHeader: RequestHeader)
+@(userForm: Form[UserForm])(implicit flash: Flash, messages: Messages, requestHeader: RequestHeader)
 
-    @import helper._
+@import helper._
 
-    @** Helper provide form field:
-    * `form`: renders a form element.
-    * `inputText`: renders a text input element.
-    * `inputPassword`: renders a password input element.
-    * `inputDate`: renders a date input element.
-    * `inputFile`: renders a file input element.
-    * `inputRadioGroup`: renders a radio input element.
-    * `select`: renders a select element.
-    * `textarea`: renders a textarea element.
-    * `checkbox`: renders a checkbox element.
-    * `input`: renders a generic input element (which requires explicit arguments).
-    *@
+@** Helper provide form field:
+* `form`: renders a form element.
+* `inputText`: renders a text input element.
+* `inputPassword`: renders a password input element.
+* `inputDate`: renders a date input element.
+* `inputFile`: renders a file input element.
+* `inputRadioGroup`: renders a radio input element.
+* `select`: renders a select element.
+* `textarea`: renders a textarea element.
+* `checkbox`: renders a checkbox element.
+* `input`: renders a generic input element (which requires explicit arguments).
+*@
 
-    @main(title = " Create User ") {
+@main(title = " Create User ") {
 
+    <div class="container">
+        
         @flash.get("success").map { message =>
-            <div>
+            <div class="alert alert-success" role="alert">
                 <strong>Done!</strong>@message
             </div>
         }
@@ -35,10 +37,12 @@
             @b3.number(userForm("age"), '_label -> "Age", 'placeholder -> "18", 'min -> 0, 'max -> 100)
 
             @b3.free('_id -> "idFormGroup") {
-                <button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-ok"></span> Save changes</button>
-                <a href="@routes.UserController.users()" class="btn btn-default"> <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                <button type="submit" class="btn btn-primary"> <span class="glyphicon glyphicon-ok"></span>
+                    Save changes</button>
+                <a href="@routes.UserController.users()" class="btn btn-default"> <span class="glyphicon glyphicon-remove"></span>
+                    Cancel</a>
             }
         }
+    </div>
 
-
-    }
+}

@@ -31,7 +31,11 @@ object AuthenticatedAction extends ActionBuilder[AuthenticatedRequest] {
   override def invokeBlock[A](request: Request[A], block: (AuthenticatedRequest[A]) => Future[Result]): Future[Result] = {
     authenticated(
       userName => block(new AuthenticatedRequest[A](Some(userName), request)),
-      Future.successful(Redirect(controllers.routes.LoginController.login()))
+      Future.successful(
+        Redirect(controllers.routes.LoginController.login())
+          .withSession(request.session + ("parent" -> request.uri))
+          .flashing("forbidden" -> "non-login")
+      )
     )(request)
   }
 }
