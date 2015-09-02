@@ -21,8 +21,8 @@ class EmailComponent @Inject()(mailerClient: MailerClient) extends Controller {
 
     val email = Email(
       subject = "Test Email",
-      from = "<crow1984@yeah.net>",
-      to = Seq("<crow1984@yeah.com>"),
+      from = "<xxxx@gmail.com>",
+      to = Seq("<xxxx@gmail.com>"),
       bodyText = Some("A text message"),
       bodyHtml = Some("<html><body><p>An <b>html</b> message</p></body></html>"),
 
